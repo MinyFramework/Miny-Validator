@@ -42,7 +42,7 @@ abstract class Constraint
             }
         }
         if (!empty($missing)) {
-            $message = sprintf('Options "%s" must be set for this constraint.', implode('", "', $missing));
+            $message = sprintf('Options "%s" must be set for this constraint.', implode('", "', array_keys($missing)));
             throw new ConstraintException($message);
         }
     }
