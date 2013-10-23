@@ -18,7 +18,8 @@ class Regexp extends Constraint
 
     public function validate($data)
     {
-        if (preg_match($this->pattern, $data) == $this->match) {
+        $pattern = str_replace('#', '\#', $this->pattern);
+        if (preg_match('#^' . $pattern . '$#mux', $data)) {
             return true;
         }
 
