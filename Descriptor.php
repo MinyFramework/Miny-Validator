@@ -11,8 +11,15 @@ namespace Modules\Validator;
 
 class Descriptor
 {
+    /**
+     * @var Constraint[]
+     */
     private $constraints = array();
 
+    /**
+     * @param string $name
+     * @return Constraint[]
+     */
     public function getConstraints($type)
     {
         if (!isset($this->constraints[$type])) {
@@ -21,21 +28,42 @@ class Descriptor
         return $this->constraints[$type];
     }
 
+    /**
+     * @param string $name
+     * @param Constraint $constraint
+     * @return Constraint
+     */
     public function addClassConstraint($name, Constraint $constraint)
     {
-        $this->addConstraint('class', $name, $constraint);
+        return $this->addConstraint('class', $name, $constraint);
     }
 
+    /**
+     * @param string $name
+     * @param Constraint $constraint
+     * @return Constraint
+     */
     public function addGetterConstraint($name, Constraint $constraint)
     {
-        $this->addConstraint('getter', $name, $constraint);
+        return $this->addConstraint('getter', $name, $constraint);
     }
 
+    /**
+     * @param string $name
+     * @param Constraint $constraint
+     * @return Constraint
+     */
     public function addPropertyConstraint($name, Constraint $constraint)
     {
-        $this->addConstraint('property', $name, $constraint);
+        return $this->addConstraint('property', $name, $constraint);
     }
 
+    /**
+     * @param string $type
+     * @param string $name
+     * @param Constraint $constraint
+     * @return Constraint
+     */
     private function addConstraint($type, $name, Constraint $constraint)
     {
         if (!isset($this->constraints[$type])) {
@@ -45,6 +73,7 @@ class Descriptor
             $this->constraints[$type][$name] = array();
         }
         $this->constraints[$type][$name][] = $constraint;
+        return $constraint;
     }
 
 }

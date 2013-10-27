@@ -47,6 +47,17 @@ abstract class Constraint
         }
     }
 
+    /**
+     * @param string|array $scenario
+     */
+    public function on($scenario)
+    {
+        if (!is_array($scenario)) {
+            $scenario = func_get_args();
+        }
+        $this->scenario = $scenario;
+    }
+
     public function getRequiredOptions()
     {
         return array();
