@@ -16,7 +16,7 @@ abstract class Constraint
     const DEFAULT_SCENARIO = 'default';
 
     public $scenario = array(self::DEFAULT_SCENARIO);
-    public $message = 'This value is not valid.';
+    public $message  = 'This value is not valid.';
     private $violations;
 
     public function __construct($params = NULL)
@@ -91,9 +91,11 @@ abstract class Constraint
         }
     }
 
+    /**
+     * @return ConstraintViolationList
+     */
     public function getViolationList()
     {
         return $this->violations ? : new ConstraintViolationList;
     }
-
 }

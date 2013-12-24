@@ -31,6 +31,11 @@ class ConstraintViolationList implements IteratorAggregate
         return $this->violations;
     }
 
+    public function clean()
+    {
+        $this->violations = array();
+    }
+
     public function getIterator()
     {
         return new ArrayIterator($this->violations);
