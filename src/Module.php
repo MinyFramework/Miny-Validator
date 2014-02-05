@@ -15,7 +15,7 @@ class Module extends \Miny\Modules\Module
 {
     public function init(BaseApplication $app)
     {
-        $app->getFactory()->add('validator', '\Modules\Validator\Validator');
+
     }
 
 }
