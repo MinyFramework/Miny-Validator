@@ -26,23 +26,23 @@ class Validator
         $valid = true;
         /** @var $violations ConstraintViolationList[] */
         $violations = array();
-        foreach ($class->getConstraints('class') as $array) {
+        foreach ($class->getConstraints(Descriptor::CLASS_CONSTRAINT) as $array) {
             /** @var $constraint Constraint */
             foreach ($array as $constraint) {
                 $is_valid = $this->validateValue($object, $constraint, $scenario);
                 if ($is_valid !== true) {
                     $list = $constraint->getViolationList();
-                    if (!isset($violations['class'])) {
-                        $violations['class'] = $list;
+                    if (!isset($violations[Descriptor::PROPERTY_CONSTRAINT])) {
+                        $violations[Descriptor::PROPERTY_CONSTRAINT] = $list;
                     } else {
-                        $violations['class']->addViolationList($list);
+                        $violations[Descriptor::PROPERTY_CONSTRAINT]->addViolationList($list);
                     }
                     $valid = false;
                 }
             }
         }
 
-        foreach ($class->getConstraints('getter') as $getter => $array) {
+        foreach ($class->getConstraints(Descriptor::GETTER_CONSTRAINT) as $getter => $array) {
             foreach ($array as $constraint) {
                 $data = call_user_func(array($object, $getter));
                 $is_valid = $this->validateValue($data, $constraint, $scenario);
@@ -58,7 +58,7 @@ class Validator
             }
         }
 
-        foreach ($class->getConstraints('property') as $property => $array) {
+        foreach ($class->getConstraints(Descriptor::PROPERTY_CONSTRAINT) as $property => $array) {
             foreach ($array as $constraint) {
                 $data = $object->$property;
                 $is_valid = $this->validateValue($data, $constraint, $scenario);
