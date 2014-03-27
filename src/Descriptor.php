@@ -17,7 +17,8 @@ class Descriptor
     private $constraints = array();
 
     /**
-     * @param string $name
+     * @param $type
+     *
      * @return Constraint[]
      */
     public function getConstraints($type)

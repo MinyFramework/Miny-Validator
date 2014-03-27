@@ -17,6 +17,10 @@ abstract class Constraint
 
     public $scenario = array(self::DEFAULT_SCENARIO);
     public $message  = 'This value is not valid.';
+
+    /**
+     * @var ConstraintViolationList
+     */
     private $violations;
 
     public function __construct($params = NULL)
@@ -76,7 +80,7 @@ abstract class Constraint
 
     public function addViolation($message, array $parameters = array())
     {
-        if (is_null($this->violations)) {
+        if (!isset($this->violations)) {
             $this->violations = new ConstraintViolationList;
         }
         $this->violations->addViolation($message, $parameters);
@@ -84,7 +88,7 @@ abstract class Constraint
 
     public function addViolationList(ConstraintViolationList $violations)
     {
-        if (is_null($this->violations)) {
+        if (!isset($this->violations)) {
             $this->violations = $violations;
         } else {
             $this->violations->addViolationList($violations);

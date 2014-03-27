@@ -24,8 +24,10 @@ class Validator
     {
         $class = $this->loadConstraints($object);
         $valid = true;
+        /** @var $violations ConstraintViolationList[] */
         $violations = array();
         foreach ($class->getConstraints('class') as $array) {
+            /** @var $constraint Constraint */
             foreach ($array as $constraint) {
                 $is_valid = $this->validateValue($object, $constraint, $scenario);
                 if ($is_valid !== true) {
