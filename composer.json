@@ -8,6 +8,9 @@
         "php": ">=5.3.3",
         "miny/framework": "dev-master"
     },
+    "require-dev": {
+        "miny/annotation": "dev-master"
+    },
     "authors": [
         {
             "name": "Dániel Buga",

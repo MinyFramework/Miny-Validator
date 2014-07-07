@@ -10,12 +10,41 @@
 namespace Modules\Validator;
 
 use Miny\Application\BaseApplication;
+use Miny\Factory\Container;
 
 class Module extends \Miny\Modules\Module
 {
-    public function init(BaseApplication $app)
+    public function defaultConfiguration()
     {
-
+        return array(
+            'enable_annotations' => true
+        );
     }
 
+    public function getDependencies()
+    {
+        $dependencies = parent::getDependencies();
+        if ($this->getConfiguration('enable_annotations')) {
+            $dependencies[] = 'Annotation';
+        }
+
+        return $dependencies;
+    }
+
+    public function init(BaseApplication $app)
+    {
+        $this->ifModule(
+            'Annotation',
+            function (BaseApplication $app) {
+                $app->getContainer()->addCallback(
+                    'Modules\\Validator\\ValidationService',
+                    function (ValidatorService $service, Container $container) {
+                        $service->setAnnotationReader(
+                            $container->get('Modules\\Annotation\\Reader')
+                        );
+                    }
+                );
+            }
+        );
+    }
 }
