@@ -24,9 +24,23 @@ class ValidatorService
      */
     private $context;
 
+    /**
+     * @var RuleSet[]
+     */
+    private $metadata = array();
+
     public function setAnnotationReader(Reader $reader)
     {
         $this->annotation = $reader;
+    }
+
+    /**
+     * @param string  $class
+     * @param RuleSet $ruleSet
+     */
+    public function register($class, RuleSet $ruleSet)
+    {
+        $this->metadata[$class] = $ruleSet;
     }
 
     /**
@@ -43,7 +57,7 @@ class ValidatorService
         RuleSet $ruleSet = null,
         ValidationContext $context = null
     ) {
-        $ruleSet       = $this->getRuleSet($object, $ruleSet);
+        $ruleSet       = $ruleSet ? : $this->getRuleSet($object);
         $scenarios     = $this->getScenarios($scenarios, $object, $ruleSet);
         $this->context = $context ? : new ValidationContext($this, $scenarios);
         foreach ($scenarios as $scenario) {
@@ -80,7 +94,7 @@ class ValidatorService
                 if (!$rule instanceof Rule) {
                     throw new \InvalidArgumentException('Invalid rule.');
                 }
-                if (!in_array($scenario, (array)$rule->for)) {
+                if (!in_array($scenario, (array) $rule->for)) {
                     continue;
                 }
                 if (!$rule->validate($value, $this->context)) {
@@ -112,6 +126,7 @@ class ValidatorService
      * @param        $object
      * @param        $property
      * @param Rule[] $validators
+     *
      * @return bool
      */
     private function validateProperty($object, $property, $validators)
@@ -135,6 +150,7 @@ class ValidatorService
      * @param        $object
      * @param Rule[] $validators
      * @param        $getter
+     *
      * @return bool
      */
     private function validateMethod($object, $validators, $getter)
@@ -223,7 +239,7 @@ class ValidatorService
             }
         }
 
-        return (array)$scenarios;
+        return (array) $scenarios;
     }
 
     /**
@@ -236,22 +252,24 @@ class ValidatorService
 
     /**
      * @param         $object
-     * @param RuleSet $ruleSet
+     *
      * @return RuleSet
      */
-    private function getRuleSet($object, RuleSet $ruleSet = null)
+    private function getRuleSet($object)
     {
-        if ($ruleSet === null) {
+        $class = get_class($object);
+        if (!isset($this->metadata[$class])) {
             if ($object instanceof Validable) {
                 $ruleSet = $object->getValidationInfo();
             } else {
                 $ruleSet = new RuleSet();
             }
-        }
-        if (isset($this->annotation)) {
-            $this->getRuleSetFromAnnotation($ruleSet, $object);
+            if (isset($this->annotation)) {
+                $this->getRuleSetFromAnnotation($ruleSet, $object);
+            }
+            $this->register($class, $ruleSet);
         }
 
-        return $ruleSet;
+        return $this->metadata[$class];
     }
 }
