@@ -57,7 +57,7 @@ class ValidatorService
         RuleSet $ruleSet = null,
         ValidationContext $context = null
     ) {
-        $ruleSet = $ruleSet ? : $this->getMetadata($object);
+        $ruleSet       = $ruleSet ? : $this->getMetadata($object);
         $scenarios     = $this->getScenarios($scenarios, $object, $ruleSet);
         $this->context = $context ? : new ValidationContext($this, $scenarios);
         foreach ($scenarios as $scenario) {

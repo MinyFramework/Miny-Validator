@@ -11,7 +11,12 @@ namespace Modules\Validator;
 
 class RuleSet
 {
-    private $scenarios = array();
+    private $scenarios = array(
+        'default' => array(
+            'property' => array(),
+            'getter'   => array()
+        )
+    );
     private $scenarioList = array('default');
 
     public static function fromArray(array $options)
@@ -41,7 +46,7 @@ class RuleSet
 
     public function setScenarioList($scenarios)
     {
-        $this->scenarioList = (array) $scenarios;
+        $this->scenarioList = (array)$scenarios;
     }
 
     public function getScenarioList()
@@ -61,7 +66,7 @@ class RuleSet
 
     public function add($name, Rule $rule, $type)
     {
-        foreach ((array) $rule->for as $scenario) {
+        foreach ((array)$rule->for as $scenario) {
             if (!isset($this->scenarios[$scenario])) {
                 $this->scenarios[$scenario] = array(
                     'property' => array(),
