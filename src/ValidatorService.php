@@ -57,7 +57,7 @@ class ValidatorService
         RuleSet $ruleSet = null,
         ValidationContext $context = null
     ) {
-        $ruleSet       = $ruleSet ? : $this->getRuleSet($object);
+        $ruleSet = $ruleSet ? : $this->getMetadata($object);
         $scenarios     = $this->getScenarios($scenarios, $object, $ruleSet);
         $this->context = $context ? : new ValidationContext($this, $scenarios);
         foreach ($scenarios as $scenario) {
@@ -94,7 +94,7 @@ class ValidatorService
                 if (!$rule instanceof Rule) {
                     throw new \InvalidArgumentException('Invalid rule.');
                 }
-                if (!in_array($scenario, (array) $rule->for)) {
+                if (!in_array($scenario, (array)$rule->for)) {
                     continue;
                 }
                 if (!$rule->validate($value, $this->context)) {
@@ -239,7 +239,7 @@ class ValidatorService
             }
         }
 
-        return (array) $scenarios;
+        return (array)$scenarios;
     }
 
     /**
@@ -251,11 +251,11 @@ class ValidatorService
     }
 
     /**
-     * @param         $object
+     * @param object $object
      *
      * @return RuleSet
      */
-    private function getRuleSet($object)
+    public function getMetadata($object)
     {
         $class = get_class($object);
         if (!isset($this->metadata[$class])) {
