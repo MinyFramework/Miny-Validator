@@ -37,7 +37,7 @@ class Module extends \Miny\Modules\Module
             'Annotation',
             function (BaseApplication $app) {
                 $app->getContainer()->addCallback(
-                    'Modules\\Validator\\ValidationService',
+                    __NAMESPACE__ . '\\ValidatorService',
                     function (ValidatorService $service, Container $container) {
                         $service->setAnnotationReader(
                             $container->get('Modules\\Annotation\\Reader')

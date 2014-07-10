@@ -14,6 +14,7 @@ namespace Modules\Validator;
  * @DefaultAttribute message
  * @Attribute('for', setter: 'setScenario')
  * @Attribute('message', type: 'string')
+ * @Target('method', 'property')
  */
 abstract class Rule
 {
