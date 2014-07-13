@@ -14,6 +14,7 @@ use Modules\Validator\ValidationContext;
 
 /**
  * @Annotation
+ * @Attribute('check_mx', type: 'bool')
  */
 class Email extends Rule
 {

@@ -15,6 +15,10 @@ use Modules\Validator\ValidationContext;
 
 /**
  * @Annotation
+ * @DefaultAttribute choices
+ * @Attribute(name: 'choices', type: {})
+ * @Attribute(name: 'source')
+ * @Attribute(name: 'multiple', type: 'bool')
  */
 class Choice extends Rule
 {

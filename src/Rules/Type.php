@@ -14,6 +14,7 @@ use Modules\Validator\ValidationContext;
 
 /**
  * @Annotation
+ * @DefaultAttribute type
  * @Attribute('type', required: true, type: 'string')
  */
 class Type extends Rule
