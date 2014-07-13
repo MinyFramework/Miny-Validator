@@ -9,11 +9,21 @@
 
 namespace Modules\Validator;
 
+use Miny\Event\EventDispatcher;
 use Modules\Annotation\Comment;
 use Modules\Annotation\Reader;
+use Modules\Validator\Events\InvalidEvent;
+use Modules\Validator\Events\PostValidationEvent;
+use Modules\Validator\Events\PreValidationEvent;
+use Modules\Validator\Events\ValidEvent;
 
 class ValidatorService
 {
+    /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
     /**
      * @var Reader
      */
@@ -28,6 +38,11 @@ class ValidatorService
      * @var RuleSet[]
      */
     private $metadata = array();
+
+    public function __construct(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     public function setAnnotationReader(Reader $reader)
     {
@@ -60,12 +75,28 @@ class ValidatorService
         $ruleSet       = $ruleSet ? : $this->getMetadata($object);
         $scenarios     = $this->getScenarios($scenarios, $object, $ruleSet);
         $this->context = $context ? : new ValidationContext($this, $scenarios);
+        $this->eventDispatcher->raiseEvent(
+            new PreValidationEvent($object, $this->context)
+        );
         foreach ($scenarios as $scenario) {
             $rules = $ruleSet->getRulesForScenario($scenario);
             if (!$this->validateScenario($object, $rules)) {
+                $this->eventDispatcher->raiseEvent(
+                    new InvalidEvent($object, $this->context)
+                );
+                $this->eventDispatcher->raiseEvent(
+                    new PostValidationEvent($object, $this->context)
+                );
+
                 return false;
             }
         }
+        $this->eventDispatcher->raiseEvent(
+            new ValidEvent($object, $this->context)
+        );
+        $this->eventDispatcher->raiseEvent(
+            new PostValidationEvent($object, $this->context)
+        );
 
         return true;
     }
@@ -89,6 +120,10 @@ class ValidatorService
         }
         $valid = true;
         $this->context->enterProperty($name);
+
+        $this->eventDispatcher->raiseEvent(
+            new PreValidationEvent($value, $this->context)
+        );
         foreach ($this->context->scenarios as $scenario) {
             foreach ($rules as $rule) {
                 if (!$rule instanceof Rule) {
@@ -105,6 +140,20 @@ class ValidatorService
             }
         }
         $this->context->leaveProperty();
+
+        if ($valid) {
+            $this->eventDispatcher->raiseEvent(
+                new ValidEvent($value, $this->context)
+            );
+        } else {
+            $this->eventDispatcher->raiseEvent(
+                new InvalidEvent($value, $this->context)
+            );
+        }
+
+        $this->eventDispatcher->raiseEvent(
+            new PostValidationEvent($value, $this->context)
+        );
 
         return $valid;
     }

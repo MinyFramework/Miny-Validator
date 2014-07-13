@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class BlankTest extends \PHPUnit_Framework_TestCase
@@ -10,7 +11,7 @@ class BlankTest extends \PHPUnit_Framework_TestCase
     {
         $rule = new Blank();
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('', $rule));
         $this->assertTrue($validator->validateValue(null, $rule));

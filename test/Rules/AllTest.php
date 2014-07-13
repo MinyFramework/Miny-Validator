@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class AllTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +18,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(array(5, 6, 7), $rule));
         $this->assertFalse($validator->validateValue(array('not int' => 'a'), $rule, 'name'));
@@ -42,7 +43,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(array(5, 6, 15), $rule));
         $this->assertFalse($validator->validateValue(array('not int' => 'a'), $rule));

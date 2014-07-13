@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class CountTest extends \PHPUnit_Framework_TestCase
@@ -12,7 +13,7 @@ class CountTest extends \PHPUnit_Framework_TestCase
         $rule->min        = 2;
         $rule->minMessage = 'Value should have at least {min} elements.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(array(1, 2), $rule));
         $this->assertFalse($validator->validateValue(array(1), $rule));
@@ -29,7 +30,7 @@ class CountTest extends \PHPUnit_Framework_TestCase
         $rule->max        = 2;
         $rule->maxMessage = 'Value should have at most {max} elements.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(array(1, 2), $rule));
         $this->assertFalse($validator->validateValue(array(1, 2, 3), $rule));
@@ -51,7 +52,7 @@ class CountTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(array(1, 2), $rule));
         $this->assertFalse($validator->validateValue(array(1, 2, 3, 4), $rule));
@@ -76,7 +77,7 @@ class CountTest extends \PHPUnit_Framework_TestCase
         $rule->max          = 2;
         $rule->exactMessage = 'Value should have exactly {min} elements.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(array(1, 2), $rule));
         $this->assertFalse($validator->validateValue(array(1, 2, 3), $rule));

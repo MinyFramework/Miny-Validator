@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Buga
- * Date: 2014.07.07.
- * Time: 21:14
- */
 
 namespace Modules\Validator\Rules;
 
-
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class NotIdenticalToTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +12,7 @@ class NotIdenticalToTest extends \PHPUnit_Framework_TestCase
         $rule       = new NotIdenticalTo();
         $rule->data = 5;
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(4, $rule));
         $this->assertFalse($validator->validateValue(5, $rule));

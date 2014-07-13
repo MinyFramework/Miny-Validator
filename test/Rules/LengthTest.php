@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class LengthTest extends \PHPUnit_Framework_TestCase
@@ -12,7 +13,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
         $rule->min        = 2;
         $rule->minMessage = 'Value should be at least {min} characters long.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('ab', $rule));
         $this->assertFalse($validator->validateValue('a', $rule));
@@ -29,7 +30,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
         $rule->max        = 2;
         $rule->maxMessage = 'Value should be at most {max} characters long.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('ab', $rule));
         $this->assertFalse($validator->validateValue('abc', $rule));
@@ -48,7 +49,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
         $rule->minMessage = 'Value should be at least {min} characters long.';
         $rule->maxMessage = 'Value should be at most {max} characters long.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('ab', $rule));
         $this->assertFalse($validator->validateValue('abcd', $rule));
@@ -73,7 +74,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
         $rule->max          = 2;
         $rule->exactMessage = 'Value should be exactly {min} characters long.';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('ab', $rule));
         $this->assertFalse($validator->validateValue('abc', $rule));

@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class LessThanOrEqualTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +12,7 @@ class LessThanOrEqualTest extends \PHPUnit_Framework_TestCase
         $rule       = new LessThanOrEqual();
         $rule->data = 5;
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(4, $rule));
         $this->assertTrue($validator->validateValue(5, $rule));

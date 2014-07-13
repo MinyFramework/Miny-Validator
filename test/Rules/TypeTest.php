@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class TypeTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +12,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $rule       = new Type();
         $rule->type = 'string';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('string', $rule));
         $this->assertFalse($validator->validateValue(1, $rule));
@@ -22,7 +23,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $rule       = new Type();
         $rule->type = 'alpha';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('string', $rule));
         $this->assertFalse($validator->validateValue('asd123', $rule));
@@ -33,7 +34,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $rule       = new Type();
         $rule->type = 'stdClass';
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(new \stdClass(), $rule));
         $this->assertFalse($validator->validateValue('asd123', $rule));

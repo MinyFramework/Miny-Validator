@@ -2,6 +2,7 @@
 
 namespace Modules\Validator;
 
+use Miny\Event\EventDispatcher;
 use Modules\Annotation\AnnotationReader;
 
 class TestClass extends \stdClass
@@ -37,13 +38,19 @@ class TestRule extends Rule
 class ValidatorServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
+    /**
      * @var ValidatorService
      */
     private $service;
 
     public function setUp()
     {
-        $this->service = new ValidatorService();
+        $this->eventDispatcher = new EventDispatcher();
+        $this->service         = new ValidatorService($this->eventDispatcher);
     }
 
     public function testValidationUsingExternalRuleSet()

@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\RuleSet;
 use Modules\Validator\Validable;
 use Modules\Validator\ValidatorService;
@@ -30,7 +31,7 @@ class ValidTest extends \PHPUnit_Framework_TestCase
     public function testThatValidValidatesCorrectly()
     {
         $rule      = new Valid();
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $testClass      = new TestClass;
         $testClass->foo = true;

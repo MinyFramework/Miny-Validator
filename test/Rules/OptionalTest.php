@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class OptionalTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +14,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
             new True
         );
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(null, $rule));
         $this->assertTrue($validator->validateValue('', $rule));

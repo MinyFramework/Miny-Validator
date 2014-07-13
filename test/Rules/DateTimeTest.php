@@ -2,6 +2,7 @@
 
 namespace Modules\Validator\Rules;
 
+use Miny\Event\EventDispatcher;
 use Modules\Validator\ValidatorService;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
@@ -10,7 +11,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $rule = new DateTime();
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue(new \DateTime(), $rule));
     }
@@ -19,7 +20,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $rule = new DateTime();
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('1990-05-04 09:36:12', $rule));
         $this->assertFalse($validator->validateValue('1990 05-04 09:36:12', $rule));
@@ -29,7 +30,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $rule = new DateTime();
 
-        $validator = new ValidatorService();
+        $validator = new ValidatorService(new EventDispatcher());
 
         $this->assertTrue($validator->validateValue('1992-02-29 09:36:12', $rule));
         $this->assertFalse($validator->validateValue('1993-02-29 09:36:12', $rule));
