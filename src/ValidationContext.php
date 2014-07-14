@@ -14,8 +14,10 @@ class ValidationContext
     public $errors;
     public $validator;
     public $scenarios;
-    private $propertyStack = array();
     private $currentProperty;
+    private $currentObject;
+    private $propertyStack = array();
+    private $objectStack = array();
 
     public function __construct(ValidatorService $validator, array $scenarios = null)
     {
@@ -29,6 +31,22 @@ class ValidationContext
             $this->errors = new ErrorList;
         }
         $this->errors->add($property, $rule->getMessage($value, $this));
+    }
+
+    public function enterObject($object)
+    {
+        $this->objectStack[] = $this->currentObject;
+        $this->currentObject = $object;
+    }
+
+    public function leaveObject()
+    {
+        $this->currentObject = array_pop($this->objectStack);
+    }
+
+    public function getCurrentObject()
+    {
+        return $this->currentObject;
     }
 
     public function enterProperty($property)

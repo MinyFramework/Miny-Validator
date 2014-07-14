@@ -75,6 +75,7 @@ class ValidatorService
         $ruleSet       = $ruleSet ? : $this->getMetadata($object);
         $scenarios     = $this->getScenarios($scenarios, $object, $ruleSet);
         $this->context = $context ? : new ValidationContext($this, $scenarios);
+        $this->context->enterObject($object);
         $this->eventDispatcher->raiseEvent(
             new PreValidationEvent($object, $this->context)
         );
@@ -87,6 +88,7 @@ class ValidatorService
                 $this->eventDispatcher->raiseEvent(
                     new PostValidationEvent($object, $this->context)
                 );
+                $this->context->leaveObject();
 
                 return false;
             }
@@ -97,6 +99,7 @@ class ValidatorService
         $this->eventDispatcher->raiseEvent(
             new PostValidationEvent($object, $this->context)
         );
+        $this->context->leaveObject();
 
         return true;
     }
