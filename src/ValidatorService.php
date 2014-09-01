@@ -284,7 +284,7 @@ class ValidatorService
     private function getScenarios($scenarios, $object, RuleSet $ruleSet)
     {
         if ($scenarios === null) {
-            if ($object instanceof ScenarioListProvider) {
+            if ($object instanceof ScenarioListProviderInterface) {
                 $scenarios = $object->getScenarioList();
             } else {
                 $scenarios = $ruleSet->getScenarioList();

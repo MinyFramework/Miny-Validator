@@ -9,7 +9,7 @@
 
 namespace Modules\Validator;
 
-interface ScenarioListProvider
+interface ScenarioListProviderInterface
 {
     /**
      * @return string[]
