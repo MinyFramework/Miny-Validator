@@ -12,42 +12,52 @@ namespace Modules\Validator;
 /**
  * @Annotation
  * @DefaultAttribute message
- * @Attribute('for', setter: 'setScenario')
+ * @Attribute('for')
  * @Attribute('message', type: 'string')
  * @Target('method', 'property')
  */
 abstract class Rule
 {
-    public $for = 'default';
+    private $for = array('default');
     public $message = 'This value is invalid';
 
     public static function fromArray(array $options)
     {
         $rule = new static();
         foreach ($options as $name => $value) {
-            $rule->$name = $value;
+            $rule->__set($name, $value);
         }
 
         return $rule;
     }
 
-    abstract public function validate($data, ValidationContext $context);
-
-    final public function setScenario($scenario)
+    public function __set($key, $value)
     {
-        if (is_string($scenario)) {
-            $this->for = $scenario;
-        } elseif (is_array($scenario)) {
-            foreach ($scenario as $for) {
-                if (!is_string($for)) {
-                    throw new \InvalidArgumentException('Scenario must be a string or an array of strings');
+        switch ($key) {
+            case 'for':
+                if (!is_array($value)) {
+                    $value = array($value);
                 }
-            }
-            $this->for = $scenario;
-        } else {
-            throw new \InvalidArgumentException('Scenario must be a string or an array of strings');
+                foreach ($value as $for) {
+                    if (!is_string($for)) {
+                        throw new \InvalidArgumentException('Scenario must be a string or an array of strings');
+                    }
+                }
+                break;
         }
+        $this->$key = $value;
     }
+
+    public function __get($key)
+    {
+        switch ($key) {
+            case 'for':
+                return $this->for;
+        }
+        return null;
+    }
+
+    abstract public function validate($data, ValidationContext $context);
 
     public function getMessage($value, ValidationContext $context)
     {

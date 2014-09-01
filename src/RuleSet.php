@@ -66,7 +66,7 @@ class RuleSet
 
     public function add($name, Rule $rule, $type)
     {
-        foreach ((array)$rule->for as $scenario) {
+        foreach ($rule->for as $scenario) {
             if (!isset($this->scenarios[$scenario])) {
                 $this->scenarios[$scenario] = array(
                     'property' => array(),

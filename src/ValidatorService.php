@@ -118,21 +118,23 @@ class ValidatorService
     {
         $this->context = $context ? : new ValidationContext($this);
 
-        if (!is_array($rules)) {
-            $rules = array($rules);
-        }
         $valid = true;
         $this->context->enterProperty($name);
 
         $this->eventDispatcher->raiseEvent(
             new PreValidationEvent($value, $this->context)
         );
+        if (!is_array($rules)) {
+            $rules = array($rules);
+        }
+        foreach ($rules as $rule) {
+            if (!$rule instanceof Rule) {
+                throw new \InvalidArgumentException('Invalid rule.');
+            }
+        }
         foreach ($this->context->scenarios as $scenario) {
             foreach ($rules as $rule) {
-                if (!$rule instanceof Rule) {
-                    throw new \InvalidArgumentException('Invalid rule.');
-                }
-                if (!in_array($scenario, (array)$rule->for)) {
+                if (!in_array($scenario, $rule->for)) {
                     continue;
                 }
                 if (!$rule->validate($value, $this->context)) {
@@ -225,13 +227,13 @@ class ValidatorService
 
     private function findGetter($object, $getter)
     {
-        if (method_exists($object, $getter)) {
+        if (is_callable($object, $getter)) {
             return $getter;
         }
         $getter = ucfirst($getter);
         foreach (array('get', 'has', 'is') as $prefix) {
             $methodName = $prefix . $getter;
-            if (method_exists($object, $methodName)) {
+            if (is_callable($object, $methodName)) {
                 return $methodName;
             }
         }
