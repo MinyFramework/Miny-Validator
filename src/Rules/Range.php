@@ -34,6 +34,6 @@ class Range extends Rule
 
     public function getMessage($value, ValidationContext $context)
     {
-        return str_replace(array('{min}', '{max}'), array($this->min, $this->max), $this->message);
+        return str_replace(['{min}', '{max}'], [$this->min, $this->max], $this->message);
     }
 }

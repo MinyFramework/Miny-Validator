@@ -16,9 +16,9 @@ class Module extends \Miny\Modules\Module
 {
     public function defaultConfiguration()
     {
-        return array(
+        return [
             'enable_annotations' => true
-        );
+        ];
     }
 
     public function getDependencies()

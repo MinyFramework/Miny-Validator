@@ -16,13 +16,13 @@ class ValidationContext
     public $scenarios;
     private $currentProperty;
     private $currentObject;
-    private $propertyStack = array();
-    private $objectStack = array();
+    private $propertyStack = [];
+    private $objectStack = [];
 
     public function __construct(ValidatorService $validator, array $scenarios = null)
     {
         $this->validator = $validator;
-        $this->scenarios = $scenarios ? : array('default');
+        $this->scenarios = $scenarios ? : ['default'];
     }
 
     public function recordError($property, $value, Rule $rule)

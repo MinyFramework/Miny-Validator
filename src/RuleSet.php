@@ -11,13 +11,13 @@ namespace Modules\Validator;
 
 class RuleSet
 {
-    private $scenarios = array(
-        'default' => array(
-            'property' => array(),
-            'getter'   => array()
-        )
-    );
-    private $scenarioList = array('default');
+    private $scenarios = [
+        'default' => [
+            'property' => [],
+            'getter'   => []
+        ]
+    ];
+    private $scenarioList = ['default'];
 
     public static function fromArray(array $options)
     {
@@ -68,13 +68,13 @@ class RuleSet
     {
         foreach ($rule->for as $scenario) {
             if (!isset($this->scenarios[$scenario])) {
-                $this->scenarios[$scenario] = array(
-                    'property' => array(),
-                    'getter'   => array()
-                );
+                $this->scenarios[$scenario] = [
+                    'property' => [],
+                    'getter'   => []
+                ];
             }
             if (!isset($this->scenarios[$scenario][$type][$name])) {
-                $this->scenarios[$scenario][$type][$name] = array();
+                $this->scenarios[$scenario][$type][$name] = [];
             }
             $this->scenarios[$scenario][$type][$name][] = $rule;
         }

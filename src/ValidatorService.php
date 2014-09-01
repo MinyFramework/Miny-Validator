@@ -37,7 +37,7 @@ class ValidatorService
     /**
      * @var RuleSet[]
      */
-    private $metadata = array();
+    private $metadata = [];
 
     public function __construct(EventDispatcher $eventDispatcher)
     {
@@ -125,7 +125,7 @@ class ValidatorService
             new PreValidationEvent($value, $this->context)
         );
         if (!is_array($rules)) {
-            $rules = array($rules);
+            $rules = [$rules];
         }
         foreach ($rules as $rule) {
             if (!$rule instanceof Rule) {
@@ -231,7 +231,7 @@ class ValidatorService
             return $getter;
         }
         $getter = ucfirst($getter);
-        foreach (array('get', 'has', 'is') as $prefix) {
+        foreach (['get', 'has', 'is'] as $prefix) {
             $methodName = $prefix . $getter;
             if (is_callable($object, $methodName)) {
                 return $methodName;
@@ -248,7 +248,7 @@ class ValidatorService
 
         $scenarioListClassName = 'Modules\\Validator\\ScenarioList';
         if ($classAnnotations->hasAnnotationType($scenarioListClassName)) {
-            $scenarios = array();
+            $scenarios = [];
             foreach ($classAnnotations->getAnnotationType($scenarioListClassName) as $annotation) {
                 $scenarios = array_merge($scenarios, $annotation->scenarios);
             }

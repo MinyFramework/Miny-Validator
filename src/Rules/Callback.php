@@ -26,7 +26,7 @@ class Callback extends Rule
     {
         $currentObject = $context->getCurrentObject();
         if ($currentObject) {
-            $callback = array($currentObject, $this->function);
+            $callback = [$currentObject, $this->function];
             if (is_callable($callback)) {
                 return call_user_func($callback, $data);
             }

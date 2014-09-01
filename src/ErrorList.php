@@ -14,7 +14,7 @@ use IteratorAggregate;
 
 class ErrorList implements IteratorAggregate
 {
-    private $errors = array();
+    private $errors = [];
 
     public function add($property, $message)
     {
@@ -22,7 +22,7 @@ class ErrorList implements IteratorAggregate
             $this->errors[] = $message;
         } else {
             if (!isset($this->errors[$property])) {
-                $this->errors[$property] = array();
+                $this->errors[$property] = [];
             }
             $this->errors[$property][] = $message;
         }
@@ -34,7 +34,7 @@ class ErrorList implements IteratorAggregate
             return $this->errors;
         }
         if (!isset($this->errors[$property])) {
-            return array();
+            return [];
         }
 
         return $this->errors[$property];

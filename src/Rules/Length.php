@@ -65,7 +65,7 @@ class Length extends Rule
     public function getMessage($value, ValidationContext $context)
     {
         $message = parent::getMessage($value, $context);
-        $message = str_replace(array('{min}', '{max}'), array($this->min, $this->max), $message);
+        $message = str_replace(['{min}', '{max}'], [$this->min, $this->max], $message);
 
         return $message;
     }

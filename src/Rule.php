@@ -18,7 +18,7 @@ namespace Modules\Validator;
  */
 abstract class Rule
 {
-    private $for = array('default');
+    private $for = ['default'];
     public $message = 'This value is invalid';
 
     public static function fromArray(array $options)
@@ -36,7 +36,7 @@ abstract class Rule
         switch ($key) {
             case 'for':
                 if (!is_array($value)) {
-                    $value = array($value);
+                    $value = [$value];
                 }
                 foreach ($value as $for) {
                     if (!is_string($for)) {
