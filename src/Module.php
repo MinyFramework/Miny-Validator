@@ -9,7 +9,7 @@
 
 namespace Modules\Validator;
 
-use Annotiny\AnnotationReader;
+use Validatiny\Readers\AnnotationReader;
 use Miny\Application\BaseApplication;
 use Validatiny\RuleReader;
 
