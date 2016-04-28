@@ -10,8 +10,8 @@
 namespace Modules\Validator;
 
 use Miny\Event\EventDispatcher;
-use Modules\Annotation\Comment;
-use Modules\Annotation\Reader;
+use Annotiny\Comment;
+use Annotiny\Reader;
 use Modules\Validator\Events\InvalidEvent;
 use Modules\Validator\Events\PostValidationEvent;
 use Modules\Validator\Events\PreValidationEvent;
