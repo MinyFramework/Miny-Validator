@@ -14,10 +14,6 @@ use Modules\Validator\ValidationContext;
 
 abstract class ValidationEvent extends Event
 {
-    /**
-     * @var ValidationContext
-     */
-    private $context;
 
     /**
      * @var object
@@ -27,21 +23,12 @@ abstract class ValidationEvent extends Event
     /**
      * @param string            $name
      * @param object            $object
-     * @param ValidationContext $context
      */
-    public function __construct($name, $object, ValidationContext $context)
+    public function __construct($name, $object)
     {
         $this->object  = $object;
-        $this->context = $context;
-        parent::__construct($name);
-    }
 
-    /**
-     * @return ValidationContext
-     */
-    public function getContext()
-    {
-        return $this->context;
+        parent::__construct($name);
     }
 
     /**

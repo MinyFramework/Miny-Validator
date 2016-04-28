@@ -9,8 +9,9 @@
 
 namespace Modules\Validator;
 
+use Annotiny\AnnotationReader;
 use Miny\Application\BaseApplication;
-use Miny\Factory\Container;
+use Validatiny\RuleReader;
 
 class Module extends \Miny\Modules\Module
 {
@@ -36,14 +37,7 @@ class Module extends \Miny\Modules\Module
         $this->ifModule(
             'Annotation',
             function (BaseApplication $app) {
-                $app->getContainer()->addCallback(
-                    __NAMESPACE__ . '\\ValidatorService',
-                    function (ValidatorService $service, Container $container) {
-                        $service->setAnnotationReader(
-                            $container->get('Modules\\Annotation\\Reader')
-                        );
-                    }
-                );
+                $app->getContainer()->addAlias(RuleReader::class, AnnotationReader::class);
             }
         );
     }

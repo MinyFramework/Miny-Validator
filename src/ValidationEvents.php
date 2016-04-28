@@ -2,7 +2,6 @@
 
 namespace Modules\Validator;
 
-
 class ValidationEvents
 {
     const PRE_VALIDATION  = 'onPreValidate';

@@ -9,17 +9,15 @@
 
 namespace Modules\Validator\Events;
 
-use Modules\Validator\ValidationContext;
 use Modules\Validator\ValidationEvents;
 
 class PreValidationEvent extends ValidationEvent
 {
     /**
-     * @param object            $object
-     * @param ValidationContext $context
+     * @param object $object
      */
-    public function __construct($object, ValidationContext $context)
+    public function __construct($object)
     {
-        parent::__construct(ValidationEvents::VALID, $object, $context);
+        parent::__construct(ValidationEvents::PRE_VALIDATION, $object);
     }
 }
