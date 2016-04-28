@@ -3,7 +3,7 @@
 namespace Modules\Validator;
 
 use Miny\Event\EventDispatcher;
-use Modules\Annotation\AnnotationReader;
+use Annotiny\AnnotationReader;
 
 class TestClass extends \stdClass
 {
