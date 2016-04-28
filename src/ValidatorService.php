@@ -36,7 +36,8 @@ class ValidatorService extends Validator
         $this->eventDispatcher->raiseEvent(
             new PreValidationEvent($object)
         );
-        if (parent::validate($object, $forScenario)) {
+        $isValid = parent::validate($object, $forScenario);
+        if ($isValid) {
             $this->eventDispatcher->raiseEvent(
                 new ValidEvent($object)
             );
@@ -48,5 +49,7 @@ class ValidatorService extends Validator
         $this->eventDispatcher->raiseEvent(
             new PostValidationEvent($object)
         );
+
+        return $isValid;
     }
 }
